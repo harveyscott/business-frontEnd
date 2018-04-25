@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Business-FrontEnd</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.6/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
+  <style>
+  </style>
+  <script>
+    $(document).ready(function () {
+      $('.managment').hide();
+
+      // button tabs
+      $('#bookings-tab-button').click(function (e) {
+        e.preventDefault();
+        $(this).addClass('active');
+        $('#management-tab-button').removeClass('active');
+        $('.managment').hide();
+        $('.booking').hide();
+        $('.booking').show();
+      });
+
+      $('#management-tab-button').click(function (e) {
+        e.preventDefault();
+
+        // button astetic
+        $(this).addClass('active');
+        $('#bookings-tab-button').removeClass('active');
+
+        // switch to management
+        $('.booking').hide();
+        $('.managment').hide();
+        $('.managment').show();
+      });
+
+    });
+  </script>
+</head>
+
+<body>
+  <div class="jumbotron jumbotron-fluid">
+    <div class="container">
+      <h1 class="display-3">Underground Dinning</h1>
+      <p class="lead">Resturant management interface</p>
+      <hr class="my-2">
+    </div>
+
+    <br>
+    <ul class="nav nav-tabs nav-justified">
+      <li class="nav-item">
+        <a class="nav-link active" href="#" id="bookings-tab-button">Bookings</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#" id="management-tab-button">Managment</a>
+      </li>
+    </ul>
+
+    <br>
+    <br>
+    <br>
+    <div class="container">
+      <div class="booking">
+        <p>This is the bookings tab</p>
+        <div class="dropdown">
+            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">View</button>
+            <div class="dropdown-menu">
+              <a class="dropdown-item" href="#">Link 1</a>
+              <a class="dropdown-item" href="#">Link 2</a>
+              <a class="dropdown-item" href="#">Link 3</a>
+            </div>
+          </div>
+          <br>
+          <br>
+
+        <table class="table table-striped">
+          <tr>
+            <th>Name</th>
+            <th>Date</th>
+            <th>Table</th>
+          </tr>
+          <tr>
+            <td>Mr. Example</td>
+            <td>12/2/2017</td>
+            <td>4</td>
+          </tr>
+        </table>
+      </div>
+
+      <div class="managment">
+        <table>
+          <tr>
+            <td>
+              <div>
+                This is where you can drag a table
+              </div>
+            </td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+</body>
+
+</html>
