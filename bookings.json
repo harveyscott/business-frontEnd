@@ -1,0 +1,26 @@
+{
+    "0": {
+      "id": "1",
+      "Name": "John Doe",
+      "Time": "17:00",
+      "Guests": "2",
+      "Table": "1",
+      "Cancelled": false
+    },
+    "1": {
+      "id": "2",
+      "Name": "John Doe2",
+      "Time": "17:00",
+      "Guests": "4",
+      "Table": "2",
+      "Cancelled": false
+    },
+    "2": {
+      "id": "3",
+      "Name": "John Doe3",
+      "Time": "17:00",
+      "Guests": "2",
+      "Table": "3",
+      "Cancelled": false
+    }
+  }

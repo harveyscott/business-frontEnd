@@ -10,19 +10,22 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.6/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
+  <script src="retrieveBookings.js"></script>
   <style>
   </style>
   <script>
     $(document).ready(function () {
       $('.managment').hide();
+      $('.addBooking').hide();
 
       // button tabs
       $('#bookings-tab-button').click(function (e) {
         e.preventDefault();
+        $('.active').removeClass('active');
         $(this).addClass('active');
-        $('#management-tab-button').removeClass('active');
         $('.managment').hide();
         $('.booking').hide();
+        $('.addBooking').hide();
         $('.booking').show();
       });
 
@@ -30,15 +33,33 @@
         e.preventDefault();
 
         // button astetic
+        $('.active').removeClass('active');
         $(this).addClass('active');
-        $('#bookings-tab-button').removeClass('active');
 
         // switch to management
         $('.booking').hide();
+        $('.addBooking').hide();
         $('.managment').hide();
         $('.managment').show();
       });
 
+      $('#addbooking-tab-button').click(function (e) { 
+        e.preventDefault();
+        $('.active').removeClass('active');
+        $(this).addClass('active');
+
+        $('.booking').hide();
+        $('.addBooking').hide();
+        $('.managment').hide();
+        $('.addBooking').show();
+      });
+
+      $('#getBookings').click(function (e) { 
+        e.preventDefault();
+        var tempDate = $('#bookingsDate').val();
+        var tempCancelled = $('#bookingsCancelled').val();
+        retrieveBookings(tempDate, tempCancelled)
+      });
     });
   </script>
 </head>
@@ -59,6 +80,9 @@
       <li class="nav-item">
         <a class="nav-link" href="#" id="management-tab-button">Managment</a>
       </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#" id="addbooking-tab-button">Add Booking</a>
+      </li>
     </ul>
 
     <br>
@@ -66,28 +90,21 @@
     <br>
     <div class="container">
       <div class="booking">
-        <p>This is the bookings tab</p>
-        <div class="dropdown">
-            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">View</button>
-            <div class="dropdown-menu">
-              <a class="dropdown-item" href="#">Link 1</a>
-              <a class="dropdown-item" href="#">Link 2</a>
-              <a class="dropdown-item" href="#">Link 3</a>
-            </div>
-          </div>
-          <br>
-          <br>
+        <p>Select Options</p>
+          <input type="date" name="bookingDate" id="bookingDate">
+          <input type="radio" name="bookingsCancelled" id="bookingsCancelled">
+          <button type="button" class="btn" id="getBookings">Search</button>
 
-        <table class="table table-striped">
+          <br>
+          <br>
+        <table class="table table-striped" id="bookings-table">
           <tr>
+            <th>ID</th>
             <th>Name</th>
-            <th>Date</th>
+            <th>Time</th>
+            <th>Guests</th>
             <th>Table</th>
-          </tr>
-          <tr>
-            <td>Mr. Example</td>
-            <td>12/2/2017</td>
-            <td>4</td>
+            <th>Cancelled</th>
           </tr>
         </table>
       </div>
@@ -130,6 +147,11 @@
           </tr>
         </table>
       </div>
+
+      <div class="addBooking">
+          This is sample text
+      </div>
+      
     </div>
 </body>
 
