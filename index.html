@@ -15,6 +15,13 @@
   </style>
   <script>
     $(document).ready(function () {
+      var layoutSelector = {
+        id: 0,
+        color: null
+      }
+
+
+
       $('.managment').hide();
       $('.addBooking').hide();
 
@@ -43,7 +50,7 @@
         $('.managment').show();
       });
 
-      $('#addbooking-tab-button').click(function (e) { 
+      $('#addbooking-tab-button').click(function (e) {
         e.preventDefault();
         $('.active').removeClass('active');
         $(this).addClass('active');
@@ -54,11 +61,98 @@
         $('.addBooking').show();
       });
 
-      $('#getBookings').click(function (e) { 
+      $('#getBookings').click(function (e) {
         e.preventDefault();
         var tempDate = $('#bookingsDate').val();
         var tempCancelled = $('#bookingsCancelled').val();
         retrieveBookings(tempDate, tempCancelled)
+      });
+
+      $('.colorKey').click(function (e) {
+        e.preventDefault();
+        // Set Table Picker
+        var identity = $(this).attr("id");
+        switch (identity) {
+          case "key1":
+            layoutSelector.color = "blue";
+            layoutSelector.id = 1;
+            break;
+          case "key2":
+            layoutSelector.color = "red";
+            layoutSelector.id = 2;
+            break;
+          case "key3":
+            layoutSelector.color = "green";
+            layoutSelector.id = 3;
+            break;
+          case "key4":
+            layoutSelector.color = "orange";
+            layoutSelector.id = 4;
+            break;
+          case "key5":
+            layoutSelector.color = "brown";
+            layoutSelector.id = 5;
+            break;
+          case "key6":
+            layoutSelector.color = "black";
+            layoutSelector.id = 6;
+            break;
+
+          case "key7":
+            layoutSelector.color = "purple";
+            layoutSelector.id = 7;
+            break;
+
+          default:
+            layoutSelector.color = null;
+            layoutSelector.id = 0;
+            break;
+        }
+
+        console.log(layoutSelector);
+
+      });
+
+      $('.pcell').click(function (e) {
+        e.preventDefault();
+        if (layoutSelector.id == 0) {
+          $(this).removeAttr("style");
+          $(this).text(0);
+        } else {
+          $(this).css("background-color", layoutSelector.color);
+          $(this).text(layoutSelector.id);
+        }
+      });
+
+      $('#submitLayout').click(function (e) {
+        e.preventDefault();
+        var date;
+        // want to create an array of numbers to send to the server.
+        var table = document.getElementById('proposedLayout');
+        var idArray = [];
+        for (var i = 0; i < table.rows.length; i++) {
+          for (let j = 0; j < table.rows[i].cells.length; j++) {
+            idArray.push(table.rows[i].cells[j].innerHTML);
+          }
+        }
+        console.log(idArray);
+        var settings = {
+          "async": true,
+          "crossDomain": true,
+          "url": "http://localhost:8080/postTableLayout",
+          "method": "POST",
+          "headers": {
+            "content-type": "application/json",
+            "cache-control": "no-cache",
+            "postman-token": "488f4798-d046-54a3-981b-68b3d7d068c9"
+          },
+          "processData": false,
+          "data": "{\n\t\"layoutDate\": \" "+ date + "\",\n\t\"layout\" :" + idArray +"\n}"
+        }
+
+        $.ajax(settings).done(function (response) {
+          console.log(response);
+        });
       });
     });
   </script>
@@ -78,7 +172,7 @@
         <a class="nav-link active" href="#" id="bookings-tab-button">Bookings</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#" id="management-tab-button">Managment</a>
+        <a class="nav-link" href="#" id="management-tab-button">Layout Managment</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="#" id="addbooking-tab-button">Add Booking</a>
@@ -91,12 +185,12 @@
     <div class="container">
       <div class="booking">
         <p>Select Options</p>
-          <input type="date" name="bookingDate" id="bookingDate">
-          <input type="radio" name="bookingsCancelled" id="bookingsCancelled">
-          <button type="button" class="btn" id="getBookings">Search</button>
+        <input type="date" name="bookingDate" id="bookingDate">
+        <input type="radio" name="bookingsCancelled" id="bookingsCancelled">
+        <button type="button" class="btn" id="getBookings">Search</button>
 
-          <br>
-          <br>
+        <br>
+        <br>
         <table class="table table-striped" id="bookings-table">
           <tr>
             <th>ID</th>
@@ -110,48 +204,123 @@
       </div>
 
       <div class="managment">
-        <table>
-          <tr>
-            <td>
-              <div>
-                This is where you can drag a table
-              </div>
-            </td>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
-        </table>
+        <div>
+          <h1>Current Layout</h1>
+          <br>
+          <br>
+          <table class="table table-striped">
+            <tr>
+              <td class="cell">7</td>
+              <td class="cell">7</td>
+              <td class="cell">7</td>
+              <td class="cell">0</td>
+            </tr>
+            <tr>
+              <td class="cell">0</td>
+              <td class="cell">0</td>
+              <td class="cell">0</td>
+              <td class="cell">0</td>
+            </tr>
+            <tr>
+              <td class="cell">0</td>
+              <td class="cell">0</td>
+              <td class="cell">0</td>
+              <td class="cell">0</td>
+            </tr>
+            <tr>
+              <td class="cell">0</td>
+              <td class="cell">0</td>
+              <td class="cell">0</td>
+              <td class="cell">0</td>
+            </tr>
+            <tr>
+              <td class="cell">0</td>
+              <td class="cell">0</td>
+              <td class="cell">0</td>
+              <td class="cell">0</td>
+            </tr>
+            <tr></tr>
+          </table>
+          <hr>
+        </div>
+
+        <div>
+          <h1>New Layout</h1>
+          <div id="Key">
+
+            Table 1:
+            <button class="colorKey" id="key1" style="background-color: blue; height: 20px;
+                    width: 20px"></button>
+            <br> Table 2:
+            <button class="colorKey" id="key2" style="background-color: red; height: 20px;
+                    width: 20px"></button>
+            <br> Table 3:
+            <button class="colorKey" id="key3" style="background-color: green; height: 20px;
+                    width: 20px"></button>
+            <br> Table 4:
+            <button class="colorKey" id="key4" style="background-color: orange; height: 20px;
+                    width: 20px"></button>
+            <br> Table 5:
+            <button class="colorKey" id="key5" style="background-color: brown; height: 20px;
+                    width: 20px"></button>
+            <br> Table 6:
+            <button class="colorKey" id="key6" style="background-color: black; height: 20px;
+                    width: 20px"></button>
+            <br> Table 7:
+            <button class="colorKey" id="key7" style="background-color: purple; height: 20px;
+                    width: 20px"></button>
+            <br> Clear:
+            <button class="colorKey" id="null" style="background-color: white; height: 20px;
+                    width: 20px"></button>
+            <br>
+
+          </div>
+          <br>
+          <br>
+          <div id="Layout">
+            <table class="table table-striped" id="proposedLayout">
+              <tr>
+                <td class="pcell">0</td>
+                <td class="pcell">0</td>
+                <td class="pcell">0</td>
+                <td class="pcell">0</td>
+              </tr>
+              <tr>
+                <td class="pcell">0</td>
+                <td class="pcell">0</td>
+                <td class="pcell">0</td>
+                <td class="pcell">0</td>
+              </tr>
+              <tr>
+                <td class="pcell">0</td>
+                <td class="pcell">0</td>
+                <td class="pcell">0</td>
+                <td class="pcell">0</td>
+              </tr>
+              <tr>
+                <td class="pcell">0</td>
+                <td class="pcell">0</td>
+                <td class="pcell">0</td>
+                <td class="pcell">0</td>
+              </tr>
+              <tr>
+                <td class="pcell">0</td>
+                <td class="pcell">0</td>
+                <td class="pcell">0</td>
+                <td class="pcell">0</td>
+              </tr>
+              <tr></tr>
+            </table>
+          </div>
+        </div>
+        <button class=".button" id="submitLayout">Submit</button>
+
       </div>
 
       <div class="addBooking">
-          This is sample text
+        This is sample text
       </div>
-      
+
     </div>
 </body>
 
