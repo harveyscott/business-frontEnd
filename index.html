@@ -17,14 +17,21 @@
   <style>
   </style>
   <script>
+    
     $(document).ready(function () {
       var layoutSelector = {
         id: 0,
         color: null
       }
+
+      function initTable() {
+        var d = new Date();
+        var dString = "" + d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();
+        $('#dateSelector2').text(dString);
+        retrieveBookings(d);
+      }
       
-    var date2 = "2018-05-31";
-    var wat;     
+      initTable();
 
       $('.managment').hide();
       $('.addBooking').hide();
@@ -177,6 +184,15 @@
         };
           booking(guestToAdd);
       });
+
+      var dataToRetireve
+      $('#dateSelector2').click(function (e) { 
+        e.preventDefault();
+        $('#dateDropDown').empty();
+        dataToRetireve = getDates();
+      });
+
+
     });
   </script>
 </head>

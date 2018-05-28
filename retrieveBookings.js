@@ -1,10 +1,10 @@
 function retrieveBookings () {
-    var dateToSend = document.getElementById("dateSelector").innerHTML;
+    date = document.getElementById("dateSelector2").innerHTML;
 
     var settings = {
         "async": true,
         "crossDomain": true,
-        "url": "http://localhost:8080/getBookingsByDate?date=" + dateToSend,
+        "url": "http://localhost:8080/getBookingsByDate?date=" + date,
         "method": "GET"
       }
       

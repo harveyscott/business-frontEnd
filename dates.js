@@ -1,6 +1,7 @@
-function getDates(date2) {
+function getDates() {
     $.ajax({
         type: "GET",
+        async: "false",
         url: "http://localhost:8080/getDates",
         data: "data",
         dataType: "JSON",
@@ -11,9 +12,9 @@ function getDates(date2) {
 
             $('.dateClass').click(function (e) { 
                 e.preventDefault();
-                $('#dateSelector').text($(this).text());
-                date2 = $(this).text();
-                console.log(date2);
+                // $('#dateSelector').text($(this).text());
+                var dateselector = document.getElementById('dateSelector2');
+                dateselector.innerHTML = $(this).text();
             });
         }
     });
