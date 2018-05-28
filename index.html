@@ -11,6 +11,9 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.6/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
   <script src="retrieveBookings.js"></script>
+  <script src="dates.js"></script>
+  <script src="booking.js"></script>
+  <script src="layout.js"></script>
   <style>
   </style>
   <script>
@@ -19,8 +22,9 @@
         id: 0,
         color: null
       }
-
-
+      
+    var date2 = "2018-05-31";
+    var wat;     
 
       $('.managment').hide();
       $('.addBooking').hide();
@@ -48,6 +52,9 @@
         $('.addBooking').hide();
         $('.managment').hide();
         $('.managment').show();
+
+        // Get Info
+        getLayout();
       });
 
       $('#addbooking-tab-button').click(function (e) {
@@ -63,9 +70,8 @@
 
       $('#getBookings').click(function (e) {
         e.preventDefault();
-        var tempDate = $('#bookingsDate').val();
-        var tempCancelled = $('#bookingsCancelled').val();
-        retrieveBookings(tempDate, tempCancelled)
+        $('#bookings-table tbody').empty();
+        retrieveBookings()
       });
 
       $('.colorKey').click(function (e) {
@@ -151,8 +157,25 @@
         }
 
         $.ajax(settings).done(function (response) {
-          console.log(response);
+          alert(response);
+          location.reload();
         });
+
+        
+      });
+
+      $('#SubmitBooking').click(function (e) { 
+        e.preventDefault();
+        var guestToAdd = {
+          name: $('#nameBox').val(),
+          numOfGuests: "",
+          date: $('#dateBox').val(),
+          phoneNumber: $('#phoneBox').val(),
+          tableID: $('#tableBox').val(),
+          email: "",
+          hours: $('#timeBox').val()
+        };
+          booking(guestToAdd);
       });
     });
   </script>
@@ -184,14 +207,21 @@
     <br>
     <div class="container">
       <div class="booking">
-        <p>Select Options</p>
-        <input type="date" name="bookingDate" id="bookingDate">
-        <input type="radio" name="bookingsCancelled" id="bookingsCancelled">
+        <p>Select Date</p>
+        <div class="dropdown">
+          <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" id="dateSelector2">Select a date
+            <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu" id="dateDropDown">
+            <li>Wednesday the 31st of January</li>
+          </ul>
+        </div>
         <button type="button" class="btn" id="getBookings">Search</button>
 
         <br>
         <br>
         <table class="table table-striped" id="bookings-table">
+          <thead>
           <tr>
             <th>ID</th>
             <th>Name</th>
@@ -200,51 +230,16 @@
             <th>Table</th>
             <th>Cancelled</th>
           </tr>
+        </thead>
+        <tbody></tbody>
         </table>
       </div>
 
       <div class="managment">
+        <div id="currentLayout"></div>
         <div>
-          <h1>Current Layout</h1>
           <br>
-          <br>
-          <table class="table table-striped">
-            <tr>
-              <td class="cell">7</td>
-              <td class="cell">7</td>
-              <td class="cell">7</td>
-              <td class="cell">0</td>
-            </tr>
-            <tr>
-              <td class="cell">0</td>
-              <td class="cell">0</td>
-              <td class="cell">0</td>
-              <td class="cell">0</td>
-            </tr>
-            <tr>
-              <td class="cell">0</td>
-              <td class="cell">0</td>
-              <td class="cell">0</td>
-              <td class="cell">0</td>
-            </tr>
-            <tr>
-              <td class="cell">0</td>
-              <td class="cell">0</td>
-              <td class="cell">0</td>
-              <td class="cell">0</td>
-            </tr>
-            <tr>
-              <td class="cell">0</td>
-              <td class="cell">0</td>
-              <td class="cell">0</td>
-              <td class="cell">0</td>
-            </tr>
-            <tr></tr>
-          </table>
           <hr>
-        </div>
-
-        <div>
           <h1>New Layout</h1>
           <div id="Key">
 
@@ -314,11 +309,37 @@
           </div>
         </div>
         <button class=".button" id="submitLayout">Submit</button>
+      </div>
+
+        
 
       </div>
 
       <div class="addBooking">
-        This is sample text
+        <form action="/action_page.php">
+          <div class="form-group">
+            <label for="email">Name:</label>
+            <input type="email" class="form-control" id="nameBox" placeholder="Enter Name" name="nameBox">
+          </div>
+          <div class="form-group">
+            <label for="pwd">Phone Number:</label>
+            <input type="text" class="form-control" id="phoneBox" placeholder="Enter Phone Number" name="phoneBox">
+          </div>
+          <div class="form-group">
+            <label for="dateBox">Date:</label>
+            <input type="text" class="form-control" id="dateBox" placeholder="Enter Date in format YYYY-MM-DD" name="dateBox">
+          </div>
+          <div class="form-group">
+            <label for="tableBox">Table:</label>
+            <input type="text" class="form-control" id="tableBox" placeholder="Enter The Table Number" name="tableBox">
+          </div>
+          <div class="form-group">
+            <label for="pwd">Time:</label>
+            <input type="text" class="form-control" id="timeBox" placeholder="Enter Time (x or x.30)" name="timeBox">
+          </div>
+          
+          <button type="submit" class="btn btn-primary" id="SubmitBooking">Submit</button>
+        </form>
       </div>
 
     </div>
